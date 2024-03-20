@@ -21,8 +21,8 @@ import java.util.Map;
 
 public class EvaluateLast {
     public static void main(String[] args) throws Exception {
-        int LINES = 30;
-        int RUNS = 12;
+        int LINES = 50;
+        int RUNS = 30;
         String[] maps = new String[1];
         String path_map = "";
         int max = 6000;
@@ -47,8 +47,8 @@ public class EvaluateLast {
             maps[0] = "DG";
             path_map = "maps/DoubleGame24x24.xml";
         } else if (args[0].equals("7")) {
-            maps[0] = "David";
-            path_map = "maps/mapDavid.xml";
+            maps[0] = "BW";
+            path_map = "maps/BWDistantResources32x32.xml";
         }
 
         int minLimit = Integer.parseInt(args[1]);
@@ -172,6 +172,7 @@ public class EvaluateLast {
                             System.out.print(score + ",");
                         } else {
                             System.out.println(score);
+                            System.out.println(strategy1);
                         }
                     }
 

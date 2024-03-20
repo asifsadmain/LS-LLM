@@ -1,5 +1,10 @@
 package ai.synthesis.ComplexDSL.CS;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import ai.core.AI;
 import ai.synthesis.ComplexDSL.EvaluateGameState.CabocoDagua2;
 import ai.synthesis.ComplexDSL.EvaluateGameState.SimplePlayout;
@@ -12,6 +17,11 @@ import ai.synthesis.ComplexDSL.Synthesis_Base.AIs.Interpreter;
 import ai.synthesis.ComplexDSL.Synthesis_Base.CFG.Control;
 import ai.synthesis.ComplexDSL.Synthesis_Base.CFG.Factory;
 import ai.synthesis.ComplexDSL.Synthesis_Base.CFG.Node;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import rts.GameState;
 import rts.units.UnitTypeTable;
 import util.Pair;
@@ -30,18 +40,17 @@ public class CS_Default implements Avaliador {
     long tempo_ini;
     private HashMap<List<Integer>, Integer> dict_data_points;
     List<Integer> neighbor_data_boolean = new ArrayList<>();
-    int DEBUG = 1;
 
     public CS_Default() {
         // TODO Auto-generated constructor stub
-        System.out.println("CS");
+        System.out.println("2L");
         UnitTypeTable utt = new UnitTypeTable();
         tempo_ini = System.currentTimeMillis();
         this.playout = new SimplePlayout();
         this.f = new FactoryLS();
         this.individuos = new ArrayList();
         this.individuos.add(new S_LS(new Empty_LS()));
-        System.out.println("Camp\t" + 0.0 + "\t" + 0 + "\t"
+        System.out.println("log(time, budget, strategy)\t" + 0.0 + "\t" + 0 + "\t"
                 + Control.save((Node) this.individuos.get(0)));
 
         this.adv_atual = new ArrayList();
@@ -101,22 +110,22 @@ public class CS_Default implements Avaliador {
         aux.add(0.5);
         this.score.add(aux);
 
-        System.out.println();
-        System.out.println("Tabela: ");
-        for (int i = 0; i < score.size(); i++) {
-            System.out.print("\t" + i);
-        }
-        System.out.println();
-        for (int i = 0; i < score.size(); i++) {
-            System.out.print(i);
-            for (int j = 0; j < score.size(); j++) {
-                System.out.print("\t" + score.get(i).get(j));
-            }
-            System.out.println();
-        }
+//        System.out.println();
+//        System.out.println("Tabela: ");
+//        for (int i = 0; i < score.size(); i++) {
+//            System.out.print("\t" + i);
+//        }
+//        System.out.println();
+//        for (int i = 0; i < score.size(); i++) {
+//            System.out.print(i);
+//            for (int j = 0; j < score.size(); j++) {
+//                System.out.print("\t" + score.get(i).get(j));
+//            }
+//            System.out.println();
+//        }
 
         long paraou = System.currentTimeMillis() - this.tempo_ini;
-        System.out.println("Camp\t" + ((paraou * 1.0) / 1000.0) + "\t" + this.budget + "\t"
+        System.out.println("log(time, budget, strategy)\t" + ((paraou * 1.0) / 1000.0) + "\t" + this.budget + "\t"
                 + Control.save((Node) this.getBest()));
 
     }
@@ -148,7 +157,7 @@ public class CS_Default implements Avaliador {
 
             long paraou = System.currentTimeMillis() - this.tempo_ini;
             if (this.budget % 1000 == 0) {
-                System.out.println("Camp\t" + ((paraou * 1.0) / 1000.0) + "\t" + this.budget + "\t"
+                System.out.println("log(time, budget, strategy)\t" + ((paraou * 1.0) / 1000.0) + "\t" + this.budget + "\t"
                         + Control.save((Node) this.getBest()));
             }
 
@@ -186,11 +195,11 @@ public class CS_Default implements Avaliador {
         AI ai = new Interpreter(utt, n);
         List strongers = get_stronger(gs, max, n, individuos);
         if (!strongers.isEmpty()) {
-            System.out.println("Stronger opponent(s) found!");
+//            System.out.println("Stronger opponent(s) found!");
             this.adv_atual.addAll(strongers);
 
         } else {
-            System.out.println("CS normal interaction!");
+//            System.out.println("CS normal interaction!");
             ArrayList<Integer> indexes_opponents = select_opponents_memory_friendly(this.adv_atual);
             List<AI> new_opponents = new ArrayList<>();
 
@@ -200,8 +209,8 @@ public class CS_Default implements Avaliador {
             this.adv_atual = new_opponents;
             this.adv_atual.add(ai);
         }
-        System.out.println("Total of adversary " + this.individuos.size());
-        System.out.println("Total of Opponents selected " + this.adv_atual.size());
+//        System.out.println("Total of adversary " + this.individuos.size());
+//        System.out.println("Total of Opponents selected " + this.adv_atual.size());
         for (AI ai1 : this.adv_atual) {
             Interpreter t = (Interpreter) ai1;
             System.out.println("\t" + t.getNode().translate());
@@ -211,7 +220,7 @@ public class CS_Default implements Avaliador {
 //            this.individuos.add((Node_LS) n);
 //        }
         this.selecionados = new HashSet<>();
-        System.out.println("#################################");
+//        System.out.println("#################################");
 
     }
 
@@ -301,7 +310,7 @@ public class CS_Default implements Avaliador {
     public Node_LS getBest() {
         // TODO Auto-generated method stub
         int index = this.getIdBest();
-        System.out.println("Melhor " + index);
+//        System.out.println("Melhor " + index);
         return (Node_LS) this.individuos.get(index).Clone(f);
     }
 

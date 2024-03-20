@@ -168,7 +168,7 @@ public class ASTCreatorForComplexDSL {
 //    System.out.println(AST5.translateIndentation(2));
   }
 
-    public static List<String> extractContentInBrackets(String str) {
+    public static List<String> extractContentInBrackets(String str, boolean shouldMap) {
         // Find the starting and ending indices of the brackets
         int start = str.indexOf('(');
         int end = str.lastIndexOf(')');
@@ -183,11 +183,46 @@ public class ASTCreatorForComplexDSL {
 
         // Split the string by comma and add each part to the list
         String[] parts = insideBrackets.split(",\\s*");
+
+        HashMap<String, String> dslMap = new HashMap<String, String>();
+
+        dslMap.put("t1", "Base");
+        dslMap.put("t2", "Barracks");
+        dslMap.put("t3", "Ranged");
+        dslMap.put("t4", "Heavy");
+        dslMap.put("t5", "Light");
+        dslMap.put("t6", "Worker");
+
+        dslMap.put("d1", "EnemyDir");
+        dslMap.put("d2", "Up");
+        dslMap.put("d3", "Down");
+        dslMap.put("d4", "Right");
+        dslMap.put("d5", "Left");
+
+        dslMap.put("op1", "Strongest");
+        dslMap.put("op2", "Weakest");
+        dslMap.put("op3", "Closest");
+        dslMap.put("op4", "Farthest");
+        dslMap.put("op5", "LessHealthy");
+        dslMap.put("op6", "MostHealthy");
+
+        dslMap.put("tp1", "Ally");
+        dslMap.put("tp2", "Enemy");
+
+        if (shouldMap) {
+            for (int i = 0; i < parts.length; i++) {
+                if (dslMap.containsKey(parts[i])) {
+//                    System.out.println(parts[i] + "=>" + dslMap.get(parts[i]));
+                    parts[i] = dslMap.get(parts[i]);
+                }
+            }
+        }
+
         return Arrays.asList(parts);
     }
 
     public static B_LS createBooleanNode(String condition) {
-        List<String> parameters = extractContentInBrackets(condition);
+        List<String> parameters = extractContentInBrackets(condition, true);        // True if encrypted DSL
         B_LS b = new B_LS();
 
         if (condition.startsWith("hasNumberOfUnits") || condition.startsWith("b1")) {
@@ -226,7 +261,7 @@ public class ASTCreatorForComplexDSL {
     }
 
     public static S_LS createCommandNode(String command) {
-        List<String> parameters = extractContentInBrackets(command);
+        List<String> parameters = extractContentInBrackets(command, true);  // true if encrypted DSL
         S_LS s = new S_LS();
 
         if (command.startsWith("u.build") || command.startsWith("u.c1")) {
